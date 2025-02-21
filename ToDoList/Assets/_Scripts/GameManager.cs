@@ -142,6 +142,8 @@ public class GameManager : MonoBehaviour
             taskBars.Remove(taskBar);
     }
 
+    #region Delete
+
     public void DeleteTaskBar(Task task)
     {
         TaskBar taskBarToDelete = null;
@@ -186,6 +188,8 @@ public class GameManager : MonoBehaviour
         SaveAndLoad.Save();
     }
 
+    #endregion
+
     public void MoveTaskBar(TaskBar taskBar, bool up)
     {
         int taskBarIndex = taskBar.ToDoBarIndexer;
@@ -229,6 +233,8 @@ public class GameManager : MonoBehaviour
 
         if (save)
             SaveAndLoad.Save();
+
+        OrderTaskBars();
     }
 
     private int GetHigherTaskBarIndexer()

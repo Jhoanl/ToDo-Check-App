@@ -19,6 +19,7 @@ public class TaskBar : MonoBehaviour
     [SerializeField] private Button editButton;
     [Space]
     [SerializeField] private Image bgImage;
+    [SerializeField] private Color curBgColor;
     [SerializeField] private Color completeColor;
     [SerializeField] private Color uncompleteColor;
     [Space]
@@ -74,8 +75,10 @@ public class TaskBar : MonoBehaviour
         completeButton.GetComponent<Image>().color = IsCompleted ?
             completeButtonColor : uncompleteButtonColor;
 
-        bgImage.color = IsCompleted ?
+        curBgColor = IsCompleted ?
             completeColor : uncompleteColor;
+
+        bgImage.color = curBgColor;
 
         string completeString = !IsCompleted ? "Hecho" : "PorHacer";
         textComplete.SetText(completeString);
@@ -106,18 +109,30 @@ public class TaskBar : MonoBehaviour
 
     private void UpButtonClicked()
     {
-        OnUpButtonClicked?.Invoke(this);
+
+        Action moveAction = () =>
+        {
+            OnUpButtonClicked?.Invoke(this);
+            GameManager.Instance.MoveTaskBar(this, true);
+            OnTaskPriorityVisuals();
+        };
+
+        FunctionTimer.Create(() => { moveAction(); }, .1f);
         //task.taskPriority++;
-        GameManager.Instance.MoveTaskBar(this, true);
-        OnTaskPriorityVisuals();
+        SetMovedVisuals();
     }
 
     private void DownButtonClicked()
     {
-        OnDownButtonClicked?.Invoke(this);
-        //task.taskPriority--;
-        GameManager.Instance.MoveTaskBar(this, false);
-        OnTaskPriorityVisuals();
+        Action moveAction = () =>
+        {
+            OnUpButtonClicked?.Invoke(this);
+            GameManager.Instance.MoveTaskBar(this, false);
+            OnTaskPriorityVisuals();
+        };
+
+        FunctionTimer.Create(() => { moveAction(); }, .1f);
+        SetMovedVisuals();
     }
 
     void OnTaskPriorityVisuals()
@@ -128,22 +143,59 @@ public class TaskBar : MonoBehaviour
         OnTaskBarChanged?.Invoke(this);
     }
 
+    private void SetMovedVisuals()
+    {
+        StartCoroutine(TriggerColorCoroutine(Color.blue));
+    }
+
+    private IEnumerator TriggerColorCoroutine(Color from)
+    {
+        float time = 0;
+        float timeTo = .5f;
+
+        while(time < timeTo)
+        {
+            time += Time.deltaTime;
+
+            Color color = Color.Lerp(from, curBgColor, time / timeTo);
+            bgImage.color = color;
+            yield return null;
+        }
+        bgImage.color = curBgColor;
+    }
+
     private void CompleteButtonClicked()
     {
-        OnCompleteButtonClicked?.Invoke(this);
-        IsCompleted = !IsCompleted;
+        Color animationColor = IsCompleted ? Color.yellow : Color.green;
+        StartCoroutine(TriggerColorCoroutine(animationColor));
 
-        OnTaskBarChanged?.Invoke(this);
+        Action completeAction = () =>
+        {
+            OnCompleteButtonClicked?.Invoke(this);
+            IsCompleted = !IsCompleted;
+
+            OnTaskBarChanged?.Invoke(this);
+        };
+
+        FunctionTimer.Create(completeAction, .2f);
     }
 
     private void DeleteButtonClicked()
     {
-        OnDeleteButtonClicked?.Invoke(this);
-        IsCompleted = false;
+        Action deleteAction = () =>
+        {
+            OnDeleteButtonClicked?.Invoke(this);
+            IsCompleted = false;
 
-        GameManager.Instance.DeleteTaskBar(this.Task);
+            GameManager.Instance.DeleteTaskBar(this.Task);
 
-        OnTaskBarChanged?.Invoke(this);
+            OnTaskBarChanged?.Invoke(this);
+        };
+
+        StartCoroutine(TriggerColorCoroutine(Color.red));
+        FunctionTimer.Create(deleteAction, .2f);
     }
+
+        
 
 }

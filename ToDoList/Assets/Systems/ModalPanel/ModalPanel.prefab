@@ -171,6 +171,8 @@ GameObject:
   - component: {fileID: 3317358469117999133}
   - component: {fileID: 6740931554221266896}
   - component: {fileID: 8791155348111774715}
+  - component: {fileID: 5222459817412087684}
+  - component: {fileID: 7663680927806234152}
   m_Layer: 5
   m_Name: DeclineButton
   m_TagString: Untagged
@@ -341,6 +343,30 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &5222459817412087684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554791515879071884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747da55cc61814e408a6b8e0778616a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7663680927806234152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554791515879071884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcc169400228714dac6cc0886824768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1554894880250814198
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,6 +945,8 @@ GameObject:
   - component: {fileID: 2064136997789700720}
   - component: {fileID: 6778284477685911555}
   - component: {fileID: 6957817714634573180}
+  - component: {fileID: 710320655526534372}
+  - component: {fileID: 8077670652717988261}
   m_Layer: 5
   m_Name: ConfirmButton
   m_TagString: Untagged
@@ -1089,6 +1117,30 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &710320655526534372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6422883725109271047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747da55cc61814e408a6b8e0778616a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8077670652717988261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6422883725109271047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edcc169400228714dac6cc0886824768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6647738627725739055
 GameObject:
   m_ObjectHideFlags: 0
