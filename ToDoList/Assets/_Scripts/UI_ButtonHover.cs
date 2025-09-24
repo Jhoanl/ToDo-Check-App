@@ -6,7 +6,7 @@ namespace RapidFireTactics
 {
     public class UI_ButtonHover : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        private const float MIN_SCALE_ON_HOVER = .85f;
+        private const float MIN_SCALE_ON_HOVER = .92f;
 
         protected void OnEnable()
         {

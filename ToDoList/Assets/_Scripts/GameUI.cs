@@ -7,13 +7,18 @@ public class GameUI : MonoBehaviour
 {
     public static GameUI instance;
 
+    [Header("Systems")]
     [SerializeField] private ModalPanel modalPanel;
     [SerializeField] private InputTextPanel inputTextPanel;
     [Space]
+    [Header("Tasks")]
+    [SerializeField] private Transform taskBarsParent;
+    [Header("Create")]
     [SerializeField] private GameObject createTasksPanel;
     [SerializeField] private TMP_InputField inputFieldTaskInput;
     [SerializeField] private Button createToDoTaskButton;
     [Space]
+    [Header("Completed")]
     [SerializeField] private Button showCompletedTasks;
     [SerializeField] private Image showCompletedTasksImage;
     [SerializeField] private Color showCompletedColor;
@@ -22,17 +27,24 @@ public class GameUI : MonoBehaviour
     [Space]
     [SerializeField] private Button deleteAllCompletedTasksButton;
 
-    [SerializeField] private Transform taskBarsParent;
+    
 
+    #region Getters
     public Transform TaskBarsParent { get => taskBarsParent; }
-    public string LastInput { get => inputFieldTaskInput.text;
-        set {
+    public string LastInput
+    {
+        get => inputFieldTaskInput.text;
+        set
+        {
             string lastInput = value;
-            inputFieldTaskInput.SetTextWithoutNotify(lastInput); }
+            inputFieldTaskInput.SetTextWithoutNotify(lastInput);
+        }
     }
 
-    public ModalPanel CurModalPanel { get => modalPanel;  }
-    public InputTextPanel InputTextPanel { get => inputTextPanel; }
+
+    public ModalPanel CurModalPanel { get => modalPanel; }
+    public InputTextPanel InputTextPanel { get => inputTextPanel; } 
+    #endregion
 
     private void Awake()
     {
@@ -44,14 +56,6 @@ public class GameUI : MonoBehaviour
 
         inputFieldTaskInput.onEndEdit.AddListener(OnEndEditCreateTaskInputField);
         SetUITasks();
-    }
-
-    private void DeleteAllTasksButton()
-    {
-        Action deleteAll = () => GameManager.Instance.DeleteAllTasksCompleted();
-
-        CurModalPanel.ShowConfirm(null, "¿Deseas Borrar todas las tareas completadas?",
-            null, deleteAll, () => { });
     }
 
     private void ShowCompletedTasks()
@@ -86,9 +90,16 @@ public class GameUI : MonoBehaviour
 
         task.taskPriority = 0;
         task.taskName = inputFieldTaskInput.text;
+        inputFieldTaskInput.text = "";
 
         GameManager.Instance.CreateTaskBar(task);
+    }
 
-        inputFieldTaskInput.text = "";
+    private void DeleteAllTasksButton()
+    {
+        Action deleteAll = () => GameManager.Instance.DeleteAllTasksCompleted();
+
+        CurModalPanel.ShowConfirm(null, "¿Deseas Borrar todas las tareas completadas?",
+            null, deleteAll, () => { });
     }
 }

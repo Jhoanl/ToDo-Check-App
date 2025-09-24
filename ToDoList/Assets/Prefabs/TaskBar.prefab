@@ -772,6 +772,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4336659499470011415}
   - component: {fileID: 4336659499470011412}
+  - component: {fileID: 1707739843074139179}
   m_Layer: 5
   m_Name: TaskBar
   m_TagString: Untagged
@@ -819,10 +820,22 @@ MonoBehaviour:
     taskIdentifier: 0
     taskPriority: 0
     isCompleted: 0
+  taskBarUI: {fileID: 1707739843074139179}
+--- !u!114 &1707739843074139179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4336659499470011414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8a5b034bcad1449a796faf78917cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   textName: {fileID: 4336659500515969603}
   textComplete: {fileID: 4336659499354798808}
   textIndexer: {fileID: 4336659500237973903}
-  editButton: {fileID: 6638892473058494218}
   bgImage: {fileID: 4336659500864969801}
   curBgColor: {r: 0, g: 0, b: 0, a: 0}
   completeColor: {r: 0.3584906, g: 0.3501409, b: 0.1504984, a: 1}
@@ -830,9 +843,10 @@ MonoBehaviour:
   upButton: {fileID: 4336659499711902140}
   downButton: {fileID: 4336659501201493547}
   completeButton: {fileID: 4336659501313688896}
-  completeButtonColor: {r: 0.9607843, g: 0.71690524, b: 0.41176474, a: 1}
-  uncompleteButtonColor: {r: 0.41176474, g: 0.9607844, b: 0.43137258, a: 1}
+  completeButtonColor: {r: 0.9607843, g: 0.7176471, b: 0.4117647, a: 1}
+  uncompleteButtonColor: {r: 0.4117647, g: 0.9607843, b: 0.43137255, a: 1}
   deleteButton: {fileID: 4336659500038995215}
+  editButton: {fileID: 6638892473058494218}
 --- !u!1 &4336659499542050471
 GameObject:
   m_ObjectHideFlags: 0

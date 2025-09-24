@@ -9,8 +9,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [Header("Main")]
     [SerializeField] private GameObject taksBarPrefab;
 
+    [Header("Cur Tasks")]
     [SerializeField] private List<TaskBar> taskBars;
 
     private bool showCompletedTasks;
@@ -225,7 +227,6 @@ public class GameManager : MonoBehaviour
 
         task.taskIdentifier = lastTaskIndexer;
         taskBar.ToDoBarIndexer = GetHigherTaskBarIndexer();
-
         taskBar.Init(task);
         taskBars.Add(taskBar);
 
@@ -254,7 +255,6 @@ public class GameManager : MonoBehaviour
     {
         if (curTasks == null) return;
 
-        TaskBar taskBar = null;
         for (int i = 0; i < curTasks.Count; i++)
         {
             CreateTaskBar(curTasks[i], false);
