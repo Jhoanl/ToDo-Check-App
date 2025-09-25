@@ -2408,7 +2408,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modalPanel: {fileID: 1768192345}
   inputTextPanel: {fileID: 1919469847}
+  taskLists: {fileID: 0}
+  taskListPrefab: {fileID: 0}
+  taskListsParent: {fileID: 0}
   taskBarsParent: {fileID: 967236618}
+  taskListsUI: {fileID: 0}
   createTasksPanel: {fileID: 512936220}
   inputFieldTaskInput: {fileID: 1761121129}
   createToDoTaskButton: {fileID: 1292693627}

@@ -63,6 +63,8 @@ namespace Saving
     [System.Serializable]
     public class SaveObject
     {
+        public List<TasksLists> tasksLists;
+
         public List<Task> tasks;
         public string lastInput;
     }

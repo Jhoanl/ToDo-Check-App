@@ -11,9 +11,15 @@ public class GameUI : MonoBehaviour
     [SerializeField] private ModalPanel modalPanel;
     [SerializeField] private InputTextPanel inputTextPanel;
     [Space]
+    [Header("TaskLists")]
+    [SerializeField] private GameObject taskLists;
+    [SerializeField] private GameObject taskListPrefab;
+    [SerializeField] private Transform taskListsParent;
+
     [Header("Tasks")]
     [SerializeField] private Transform taskBarsParent;
     [Header("Create")]
+    [SerializeField] private TaskListsUI taskListsUI;
     [SerializeField] private GameObject createTasksPanel;
     [SerializeField] private TMP_InputField inputFieldTaskInput;
     [SerializeField] private Button createToDoTaskButton;
