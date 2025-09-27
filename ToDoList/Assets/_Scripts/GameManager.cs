@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour
         if (task == null) { return; }
 
         TaskBar taskBar = null;
-        taskBar= Instantiate(taksBarPrefab, GameUI.instance.TaskBarsParent)
+        taskBar= Instantiate(taksBarPrefab, GameUI.instance.TasksUI.TaskBarsParent)
             .GetComponent<TaskBar>();
 
         task.taskIdentifier = lastTaskIndexer;

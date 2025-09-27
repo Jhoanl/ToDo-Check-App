@@ -22,7 +22,8 @@ public class GameUI : MonoBehaviour
     #region Getters
 
     public ModalPanel CurModalPanel { get => modalPanel; }
-    public InputTextPanel InputTextPanel { get => inputTextPanel; } 
+    public InputTextPanel InputTextPanel { get => inputTextPanel; }
+    public TasksUI TasksUI { get => tasksUI; set => tasksUI=value; }
     #endregion
 
     private void Awake()

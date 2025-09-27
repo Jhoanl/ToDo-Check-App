@@ -45,7 +45,7 @@ namespace Saving
         private static void SetSaveObject(SaveObject savedObject)
         {
             GameManager.Instance.Load(savedObject.tasks);
-            GameUI.instance.LastInput = savedObject.lastInput;
+            GameUI.instance.TasksUI.LastInput = savedObject.lastInput;
             //Debug.Log("SetSaveObject Needed");
         }
 
@@ -53,7 +53,7 @@ namespace Saving
         {
             SaveObject saveObject = GameManager.Instance.GetSaveObject();
 
-            saveObject.lastInput =GameUI.instance.LastInput;
+            saveObject.lastInput =GameUI.instance.TasksUI.LastInput;
 
             //Debug.Log("Create SaveObject Needed");
             return saveObject;
@@ -63,7 +63,7 @@ namespace Saving
     [System.Serializable]
     public class SaveObject
     {
-        public List<TasksLists> tasksLists;
+        public List<TasksList> tasksLists;
 
         public List<Task> tasks;
         public string lastInput;

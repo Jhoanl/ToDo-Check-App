@@ -10,11 +10,3 @@ public class Task
     public bool isCompleted;
 }
 
-[System.Serializable]
-public class TasksLists
-{
-    public string taskListName;
-    public int spriteName;
-
-    private List<Task> tasks;
-}

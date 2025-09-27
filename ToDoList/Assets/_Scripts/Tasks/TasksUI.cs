@@ -30,8 +30,6 @@ public class TasksUI : MonoBehaviour
 
     private bool showCompleteTasks;
 
-
-
     #region Getters
 
     public Transform TaskBarsParent { get => taskBarsParent; }
