@@ -17,10 +17,14 @@ public class TaskListButton : MonoBehaviour
     private TasksListsUI tasksListsUI;
     private TasksList tasksList;
 
+    public TasksList TasksList { get => tasksList; set => tasksList = value; }
+
     private void Awake()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(OnClick);
+
+        editButton.onClick.AddListener(OnEditButton);
     }
 
     public void Initialize(TasksListsUI tasksListsUI, TasksList tasksList)
@@ -31,7 +35,7 @@ public class TaskListButton : MonoBehaviour
         UpdateUI();
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         if (tasksList == null)
             return;
@@ -43,5 +47,10 @@ public class TaskListButton : MonoBehaviour
     private void OnClick()
     {
         tasksListsUI.SelectTaskList(this);
+    }
+
+    private void OnEditButton()
+    {
+        tasksListsUI.EditTaskList(this);
     }
 }

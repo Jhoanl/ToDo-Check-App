@@ -1,3 +1,4 @@
+using Saving;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,11 +24,23 @@ public class TasksListsUI : MonoBehaviour
     public void Initialize(List<TasksList> tasksLists)
     {
         Clear();
+
+        Populate(tasksLists);
     }
 
     public void Seek(List<TasksList> tasksLists)
     {
         Clear();
+
+        Populate(tasksLists);
+    }
+
+    private void Populate(List<TasksList> tasksLists)
+    {
+        for (int i = 0; i < tasksLists.Count; i++)
+        {
+            InstantiateTaskList(tasksLists[i], false);
+        }
     }
 
     private void Clear()
@@ -52,11 +65,70 @@ public class TasksListsUI : MonoBehaviour
 
     public void EditTaskList(TaskListButton taskListButton)
     {
+        Debug.Log("Edit task Lists");
+        //Open Edit Menu of task lists
 
+        GameUI.instance.InputTextPanel.Show("Change task lists Name",
+            taskListButton.TasksList.taskListName,
+            (x) => {
+                taskListButton.TasksList.taskListName = x;
+                taskListButton.UpdateUI();
+                Save();
+            });
+
+        //Options Erase - Change Name
     }
 
     private void CreateTaskList()
     {
-        
+        Debug.Log("Create task list");
+
+        //Create New Task List
+        TasksList tasksList = new TasksList();
+        tasksList.taskListName = "New";
+        tasksList.tasks = new List<Task>();
+
+        InstantiateTaskList(tasksList);
+
+        //Save
+
+        Save();
+
+        //Select
+    }
+
+    private void InstantiateTaskList(TasksList tasksLists, bool autoSetName = true)
+    {
+        GameObject go = Instantiate(taskListsGoPrefab, taskListsParent);
+
+        if (autoSetName)
+        {
+            int index = taskListsParent.childCount;
+            tasksLists.taskListName = "Lista " + index;
+        }
+
+        TaskListButton taskListBut = go.GetComponent<TaskListButton>();
+        taskListBut.Initialize(this, tasksLists);
+
+        taskListButtons.Add(taskListBut);
+    }
+
+    private List<TasksList> GetTaskLists()
+    {
+        List<TasksList> taskLists = new List<TasksList>();
+
+        for (int i = 0; i < taskListButtons.Count; i++)
+        {
+            taskLists.Add(taskListButtons[i].TasksList);
+        }
+
+        return taskLists;
+    }
+
+    private void Save()
+    {
+        GameManager.Instance.TaskLists = GetTaskLists();
+
+        SaveAndLoad.Save();
     }
 }

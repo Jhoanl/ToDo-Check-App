@@ -44,7 +44,7 @@ namespace Saving
 
         private static void SetSaveObject(SaveObject savedObject)
         {
-            GameManager.Instance.Load(savedObject.tasks);
+            GameManager.Instance.Load(savedObject.tasks, savedObject.tasksLists);
             GameUI.instance.TasksUI.LastInput = savedObject.lastInput;
             //Debug.Log("SetSaveObject Needed");
         }

@@ -11,12 +11,13 @@ public class GameUI : MonoBehaviour
     [SerializeField] private ModalPanel modalPanel;
     [SerializeField] private InputTextPanel inputTextPanel;
     [Space]
-    [Header("TaskLists")]
-    [SerializeField] private GameObject taskLists;
-    [SerializeField] private GameObject taskListPrefab;
-
-    [SerializeField] private Transform taskListsParent;
+    [Header("UI")]
     [SerializeField] private TasksUI tasksUI;
+    [SerializeField] private TasksListsUI taskListsUI;
+    //[SerializeField] private GameObject taskLists;
+    //[SerializeField] private GameObject taskListPrefab;
+
+    //[SerializeField] private Transform taskListsParent;
 
 
     #region Getters
@@ -24,6 +25,7 @@ public class GameUI : MonoBehaviour
     public ModalPanel CurModalPanel { get => modalPanel; }
     public InputTextPanel InputTextPanel { get => inputTextPanel; }
     public TasksUI TasksUI { get => tasksUI; set => tasksUI=value; }
+    public TasksListsUI TaskListsUI { get => taskListsUI; set => taskListsUI = value; }
     #endregion
 
     private void Awake()
