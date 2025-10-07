@@ -25,6 +25,7 @@ public class DataBase : MonoBehaviour
 [System.Serializable]
 public class TasksList
 {
+    public int identifier = 0;
     public string taskListName;
     public int spriteName;
 

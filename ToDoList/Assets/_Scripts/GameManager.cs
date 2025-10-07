@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [Header("Cur Tasks")]
     [SerializeField] private List<TaskBar> taskBars;
     [SerializeField] private List<TasksList> taskLists;
+    private TasksList selectedTasksList;
 
     private bool showCompletedTasks;
 
@@ -45,22 +46,16 @@ public class GameManager : MonoBehaviour
         TaskBar.OnEditButtonClicked +=TaskBar_OnEditButtonClicked;
     }
 
-    private void TaskBar_OnEditButtonClicked(TaskBar taskBarToEdit)
+    private void OnDestroy()
     {
-        Action<string> confirmAction = (newName) =>
-        {
-            taskBarToEdit.Task.taskName = newName;
-            taskBarToEdit.SetVisuals();
-
-            SaveAndLoad.Save();
-        };
-
-        GameUI.instance.InputTextPanel.Show("Editar Tarea", taskBarToEdit.Task.taskName, confirmAction);
+        TaskBar.OnTaskBarChanged -=TaskBar_OnTaskBarChanged;
+        TaskBar.OnEditButtonClicked -=TaskBar_OnEditButtonClicked;
     }
 
     private void Start()
     {
         SaveAndLoad.Load();
+        GameUI.instance.SetScreen(0);
     }
 
     private void Update()
@@ -75,13 +70,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void TaskBar_OnEditButtonClicked(TaskBar taskBarToEdit)
     {
-        TaskBar.OnTaskBarChanged -=TaskBar_OnTaskBarChanged;
-        TaskBar.OnEditButtonClicked -=TaskBar_OnEditButtonClicked;
+        Action<string> confirmAction = (newName) =>
+        {
+            taskBarToEdit.Task.taskName = newName;
+            taskBarToEdit.SetVisuals();
+
+            SaveAndLoad.Save();
+        };
+
+        GameUI.instance.InputTextPanel.Show("Editar Tarea", taskBarToEdit.Task.taskName, confirmAction);
     }
 
-    private void TaskBar_OnTaskBarChanged(TaskBar obj)
+
+
+    private void TaskBar_OnTaskBarChanged(TaskBar task)
     {
         ShowTaskBars();
         OrderTaskBars();
@@ -242,6 +246,16 @@ public class GameManager : MonoBehaviour
         OrderTaskBars();
     }
 
+    private void ClearTasks()
+    {
+        for (int i = 0; i < taskBars.Count; i++)
+        {
+            Destroy(taskBars[i].gameObject);
+        }
+
+        taskBars.Clear();
+    }
+
     private int GetHigherTaskBarIndexer()
     {
         int higherIndexer = 0;
@@ -257,7 +271,16 @@ public class GameManager : MonoBehaviour
 
     public void Load(List<Task> curTasks, List<TasksList> tasksLists)
     {
+        SetCurTasks(curTasks);
+        taskLists = tasksLists;
+        GameUI.instance.TaskListsUI.Initialize(tasksLists);
+    }
+
+    private void SetCurTasks(List<Task> curTasks)
+    {
         if (curTasks == null) return;
+
+        ClearTasks();
 
         for (int i = 0; i < curTasks.Count; i++)
         {
@@ -266,8 +289,6 @@ public class GameManager : MonoBehaviour
 
         ShowTaskBars();
         OrderTaskBars();
-
-        GameUI.instance.TaskListsUI.Initialize(tasksLists);
     }
 
     public List<Task> GetTasksOfTaskBars(List<TaskBar> taskBars)
@@ -287,8 +308,18 @@ public class GameManager : MonoBehaviour
         SaveObject saveObject = new SaveObject();
 
         saveObject.tasks = GetTasksOfTaskBars(taskBars);
+        selectedTasksList.tasks = GetTasksOfTaskBars(taskBars);
         saveObject.tasksLists = taskLists;
 
         return saveObject;
+    }
+
+    public void SetTaskList(int index)
+    {
+        this.selectedTasksList = taskLists[index];
+
+        SetCurTasks(selectedTasksList.tasks);
+
+        GameUI.instance.SetScreen(1);
     }
 }

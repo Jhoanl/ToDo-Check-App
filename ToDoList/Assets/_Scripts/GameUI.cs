@@ -14,6 +14,8 @@ public class GameUI : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TasksUI tasksUI;
     [SerializeField] private TasksListsUI taskListsUI;
+    [SerializeField] private GameObject tasksListsPanel;
+    [SerializeField] private GameObject tasksPanel;
     //[SerializeField] private GameObject taskLists;
     //[SerializeField] private GameObject taskListPrefab;
 
@@ -37,6 +39,12 @@ public class GameUI : MonoBehaviour
     {
         GameManager.Instance.ShowCompletedTasks = !GameManager.Instance.ShowCompletedTasks;
         //SetUITasks();
+    }
+
+    public void SetScreen(int screenId)
+    {
+        tasksListsPanel.SetActive(screenId == 0);
+        tasksPanel.SetActive(screenId == 1);
     }
 
 }

@@ -60,7 +60,8 @@ public class TasksListsUI : MonoBehaviour
     {
         Debug.Log("Task list selected");
 
-        //Load Set Game Mananger tasks
+        //Load Set Game Manager tasks
+        GameManager.Instance.SetTaskList(taskListButton.TasksList.identifier);
     }
 
     public void EditTaskList(TaskListButton taskListButton)
