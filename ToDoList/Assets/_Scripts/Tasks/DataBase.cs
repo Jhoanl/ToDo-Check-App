@@ -30,4 +30,33 @@ public class TasksList
     public int spriteName;
 
     public List<Task> tasks;
+
+    public List<Task> GetTasksDone()
+    {
+        List < Task > tasksDone = new List <Task> ();   
+        for (int i = 0; i < tasks.Count; i++)
+        {
+            if (tasks[i].isCompleted)
+                tasksDone.Add (tasks[i]);
+        }
+
+        return tasksDone;   
+    }
+
+    public List<Task> GetTasksPending()
+    {
+        List<Task> tasksPending = new List<Task>();
+        for (int i = 0; i < tasks.Count; i++)
+        {
+            if (!tasks[i].isCompleted)
+                tasksPending.Add(tasks[i]);
+        }
+
+        return tasksPending;
+    }
+
+    public int GetTasksAmount()
+    {
+        return tasks.Count;
+    }
 }

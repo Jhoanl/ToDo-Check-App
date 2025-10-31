@@ -13,6 +13,9 @@ public class TasksListsUI : MonoBehaviour
     [Space]
     [SerializeField] private Button createListButton;
 
+    [Header("Edit Menu")]
+    [SerializeField] private TaskListsEditMenu editMenu;
+
     private List<TaskListButton> taskListButtons;
 
     private void Awake()
@@ -69,15 +72,29 @@ public class TasksListsUI : MonoBehaviour
         Debug.Log("Edit task Lists");
         //Open Edit Menu of task lists
 
-        GameUI.instance.InputTextPanel.Show("Change task lists Name",
-            taskListButton.TasksList.taskListName,
-            (x) => {
-                taskListButton.TasksList.taskListName = x;
-                taskListButton.UpdateUI();
-                Save();
-            });
+        if (editMenu != null)
+        {
+            editMenu.Seek(taskListButton);
+        }
+        else
+        {
 
-        //Options Erase - Change Name
+            GameUI.instance.InputTextPanel.Show("Change task lists Name",
+                taskListButton.TasksList.taskListName,
+                (x) =>
+                {
+                    taskListButton.TasksList.taskListName = x;
+                    taskListButton.UpdateUI();
+                    Save();
+                });
+
+        }
+
+    }
+
+    public void DeleteTaskList(TaskListButton taskListButton)
+    {
+        Debug.Log("Edit task Lists");
     }
 
     private void CreateTaskList()
@@ -126,10 +143,12 @@ public class TasksListsUI : MonoBehaviour
         return taskLists;
     }
 
-    private void Save()
+    public void Save()
     {
         GameManager.Instance.TaskLists = GetTaskLists();
 
         SaveAndLoad.Save();
     }
+
+
 }

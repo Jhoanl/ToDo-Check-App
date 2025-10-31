@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject taksBarPrefab;
 
     [Header("Cur Tasks")]
+    [SerializeField] private SaveObject saveObject;
     [SerializeField] private List<TaskBar> taskBars;
     [SerializeField] private List<TasksList> taskLists;
     private TasksList selectedTasksList;
@@ -68,6 +69,9 @@ public class GameManager : MonoBehaviour
             EditorApplication.isPlaying = false;
 #endif
         }
+
+        if(Time.frameCount % 120 == 0)
+            saveObject = GetSaveObject();
     }
 
     private void TaskBar_OnEditButtonClicked(TaskBar taskBarToEdit)
@@ -89,6 +93,12 @@ public class GameManager : MonoBehaviour
     {
         ShowTaskBars();
         OrderTaskBars();
+
+        if (selectedTasksList != null)
+            selectedTasksList.tasks = GetTasksOfTaskBars(taskBars);
+
+        //Update task lists 
+        GameUI.instance.TaskListsUI.Initialize(this.taskLists);
 
         SaveAndLoad.Save();
     }
@@ -307,8 +317,11 @@ public class GameManager : MonoBehaviour
     {
         SaveObject saveObject = new SaveObject();
 
-        saveObject.tasks = GetTasksOfTaskBars(taskBars);
-        selectedTasksList.tasks = GetTasksOfTaskBars(taskBars);
+        //saveObject.tasks = GetTasksOfTaskBars(taskBars);
+
+        if(selectedTasksList != null)
+            selectedTasksList.tasks = GetTasksOfTaskBars(taskBars);
+
         saveObject.tasksLists = taskLists;
 
         return saveObject;

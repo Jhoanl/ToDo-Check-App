@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,9 +11,12 @@ public class TaskListButton : MonoBehaviour
     [Header("Texts")]
     [SerializeField] private TextMeshProUGUI taskListNameText;
     [SerializeField] private TextMeshProUGUI tasksAmountText;
+    [SerializeField] private TextMeshProUGUI tasksAmountDoneText;
+    [SerializeField] private TextMeshProUGUI tasksAmountPendingText;
 
     [Header("Buttons")]
     [SerializeField] private Button editButton;
+    [SerializeField] private Button deleteButton;
 
     private TasksListsUI tasksListsUI;
     private TasksList tasksList;
@@ -25,6 +29,7 @@ public class TaskListButton : MonoBehaviour
         button.onClick.AddListener(OnClick);
 
         editButton.onClick.AddListener(OnEditButton);
+        deleteButton.onClick.AddListener(OnDeletteButton);
     }
 
     public void Initialize(TasksListsUI tasksListsUI, TasksList tasksList)
@@ -41,7 +46,9 @@ public class TaskListButton : MonoBehaviour
             return;
 
         taskListNameText.text = tasksList.taskListName;
-        tasksAmountText.text = tasksList.tasks.Count.ToString();
+        tasksAmountText.text = tasksList.GetTasksAmount().ToString();
+        tasksAmountDoneText.text = tasksList.GetTasksDone().Count.ToString();
+        tasksAmountPendingText.text = tasksList.GetTasksPending().Count.ToString();
     }
 
     private void OnClick()
@@ -53,4 +60,10 @@ public class TaskListButton : MonoBehaviour
     {
         tasksListsUI.EditTaskList(this);
     }
+
+    private void OnDeletteButton()
+    {
+        tasksListsUI.DeleteTaskList(this);
+    }
+
 }

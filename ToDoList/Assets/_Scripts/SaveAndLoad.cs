@@ -44,7 +44,24 @@ namespace Saving
 
         private static void SetSaveObject(SaveObject savedObject)
         {
+            //To Save old version data
+            if (savedObject.tasks.Count > 0)
+            {
+                savedObject.tasksLists = new List<TasksList>();
+
+                TasksList tasksList = new TasksList();
+                tasksList.tasks = savedObject.tasks;
+                tasksList.taskListName = "Main";
+                tasksList.identifier = 0;
+
+                savedObject.tasks = new List<Task>();
+                savedObject.tasksLists.Add(tasksList);
+
+                FunctionTimer.Create(() => Save(), .1f);
+            }
+
             GameManager.Instance.Load(savedObject.tasks, savedObject.tasksLists);
+
             GameUI.instance.TasksUI.LastInput = savedObject.lastInput;
             //Debug.Log("SetSaveObject Needed");
         }
