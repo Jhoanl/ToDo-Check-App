@@ -1,6 +1,7 @@
 using Saving;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -22,6 +23,13 @@ public class TasksListsUI : MonoBehaviour
     {
         taskListButtons = new List<TaskListButton>();
         createListButton.onClick.AddListener(CreateTaskList);
+
+        editMenu.Initialize(this);
+    }
+
+    private void Start()
+    {
+        editMenu.CloseEditMenu();
     }
 
     public void Initialize(List<TasksList> tasksLists)
@@ -94,7 +102,7 @@ public class TasksListsUI : MonoBehaviour
 
     public void DeleteTaskList(TaskListButton taskListButton)
     {
-        Debug.Log("Edit task Lists");
+        Debug.Log($"Deleting task List : {taskListButton.TasksList.taskListName}");
     }
 
     private void CreateTaskList()

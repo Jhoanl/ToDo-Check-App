@@ -62,6 +62,11 @@ public class TasksUI : MonoBehaviour
         ui=GameUI.instance;
     }
 
+    private void Update()
+    {
+        createToDoTaskButton.interactable = (inputFieldTaskInput.text != String.Empty);
+    }
+
     private void ShowCompletedTasks()
     {
         showCompleteTasks = !showCompleteTasks;

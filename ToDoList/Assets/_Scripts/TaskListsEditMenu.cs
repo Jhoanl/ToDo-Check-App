@@ -49,7 +49,7 @@ public class TaskListsEditMenu : MonoBehaviour
             null,() => tasksListsUI.DeleteTaskList(taskListButton), null);
     }
 
-    private void CloseEditMenu()
+    public void CloseEditMenu()
     {
         editMenu.SetActive(false);
     }

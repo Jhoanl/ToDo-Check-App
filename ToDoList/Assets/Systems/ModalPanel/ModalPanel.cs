@@ -166,6 +166,8 @@ public class ModalPanel : MonoBehaviour
         }
 
         canvasGroup.alpha = endValue;
+        canvasGroup.interactable = !hide;
+        canvasGroup.blocksRaycasts = !hide;
     }
     #endregion
 }
