@@ -9,6 +9,7 @@ public class TasksUI : MonoBehaviour
 
     [Header("Tasks")]
     [SerializeField] private Transform taskBarsParent;
+    [SerializeField] private TextMeshProUGUI curTaskListText;
 
     [Header("Create")]
     [SerializeField] private GameObject createTasksPanel;
@@ -64,7 +65,17 @@ public class TasksUI : MonoBehaviour
 
     private void Update()
     {
-        createToDoTaskButton.interactable = (inputFieldTaskInput.text != String.Empty);
+        createToDoTaskButton.interactable = (inputFieldTaskInput.text != String. Empty);
+
+        if (DataBase.selectedTaskList != null) {
+
+            TasksList tasksList = DataBase.selectedTaskList;
+            curTaskListText.text = tasksList.taskListName + " /Index : " + tasksList.identifier;
+                }
+        else
+        {
+            curTaskListText.text = "";
+        }
     }
 
     private void ShowCompletedTasks()

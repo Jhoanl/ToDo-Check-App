@@ -60,15 +60,17 @@ namespace Saving
                 FunctionTimer.Create(() => Save(), .1f);
             }
 
-            GameManager.Instance.Load(savedObject.tasks, savedObject.tasksLists);
+            for (int i = 0; i < savedObject.tasksLists.Count; i++)
+            {
+                savedObject.tasksLists[i].identifier = i;
+            }
 
-            GameUI.instance.TasksUI.LastInput = savedObject.lastInput;
-            //Debug.Log("SetSaveObject Needed");
+            DataBase.Load(savedObject);
         }
 
         private static SaveObject CreateSaveObject()
         {
-            SaveObject saveObject = GameManager.Instance.GetSaveObject();
+            SaveObject saveObject = DataBase.GetSaveObject();
 
             saveObject.lastInput =GameUI.instance.TasksUI.LastInput;
 

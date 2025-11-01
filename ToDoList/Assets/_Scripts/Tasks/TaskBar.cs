@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TaskBar : MonoBehaviour
@@ -168,5 +169,16 @@ public class TaskBar : MonoBehaviour
 
     #endregion
 
+    public static List<Task> GetTasksOfTaskBars(List<TaskBar> taskBars)
+    {
+        List<Task> tasks = new List<Task>();
+
+        for (int i = 0; i < taskBars.Count; i++)
+        {
+            tasks.Add(taskBars[i].Task);
+        }
+
+        return tasks;
+    }
 
 }

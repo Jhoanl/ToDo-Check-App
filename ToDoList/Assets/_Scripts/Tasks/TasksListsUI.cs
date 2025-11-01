@@ -1,9 +1,6 @@
 using Saving;
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TasksListsUI : MonoBehaviour
@@ -32,6 +29,11 @@ public class TasksListsUI : MonoBehaviour
         editMenu.CloseEditMenu();
     }
 
+    private void OnEnable()
+    {
+        RecalculateUI();
+    }
+
     public void Initialize(List<TasksList> tasksLists)
     {
         Clear();
@@ -52,6 +54,11 @@ public class TasksListsUI : MonoBehaviour
         {
             InstantiateTaskList(tasksLists[i], false);
         }
+    }
+
+    private void RecalculateUI()
+    {
+        Seek(GameManager.Instance.TaskLists);
     }
 
     private void Clear()
@@ -103,6 +110,17 @@ public class TasksListsUI : MonoBehaviour
     public void DeleteTaskList(TaskListButton taskListButton)
     {
         Debug.Log($"Deleting task List : {taskListButton.TasksList.taskListName}");
+
+        for (int i = 0; i < GameManager.Instance.TaskLists.Count; i++)
+        {
+            if(taskListButton.TasksList ==GameManager.Instance.TaskLists[i])
+            {
+                GameManager.Instance.TaskLists.Remove(taskListButton.TasksList);
+                break;
+            }    
+        }
+
+        RecalculateUI();
     }
 
     private void CreateTaskList()
@@ -153,7 +171,7 @@ public class TasksListsUI : MonoBehaviour
 
     public void Save()
     {
-        GameManager.Instance.TaskLists = GetTaskLists();
+        DataBase.taskLists = GetTaskLists();
 
         SaveAndLoad.Save();
     }

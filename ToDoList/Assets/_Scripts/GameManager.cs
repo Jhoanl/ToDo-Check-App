@@ -13,10 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject taksBarPrefab;
 
     [Header("Cur Tasks")]
-    [SerializeField] private SaveObject saveObject;
     [SerializeField] private List<TaskBar> taskBars;
     [SerializeField] private List<TasksList> taskLists;
-    private TasksList selectedTasksList;
 
     private bool showCompletedTasks;
 
@@ -70,8 +68,6 @@ public class GameManager : MonoBehaviour
 #endif
         }
 
-        if(Time.frameCount % 120 == 0)
-            saveObject = GetSaveObject();
     }
 
     private void TaskBar_OnEditButtonClicked(TaskBar taskBarToEdit)
@@ -94,8 +90,7 @@ public class GameManager : MonoBehaviour
         ShowTaskBars();
         OrderTaskBars();
 
-        if (selectedTasksList != null)
-            selectedTasksList.tasks = GetTasksOfTaskBars(taskBars);
+        DataBase.UpdateTasksOfSelected(GetTasksOfCurTaskBars());
 
         //Update task lists 
         GameUI.instance.TaskListsUI.Initialize(this.taskLists);
@@ -283,6 +278,7 @@ public class GameManager : MonoBehaviour
     {
         SetCurTasks(curTasks);
         taskLists = tasksLists;
+
         GameUI.instance.TaskListsUI.Initialize(tasksLists);
     }
 
@@ -301,37 +297,16 @@ public class GameManager : MonoBehaviour
         OrderTaskBars();
     }
 
-    public List<Task> GetTasksOfTaskBars(List<TaskBar> taskBars)
+    public List<Task> GetTasksOfCurTaskBars()
     {
-        List<Task> tasks = new List<Task>();
-
-        for (int i = 0; i < taskBars.Count; i++)
-        {
-            tasks.Add(taskBars[i].Task);
-        }
-
-        return tasks;
-    }
-
-    public SaveObject GetSaveObject()
-    {
-        SaveObject saveObject = new SaveObject();
-
-        //saveObject.tasks = GetTasksOfTaskBars(taskBars);
-
-        if(selectedTasksList != null)
-            selectedTasksList.tasks = GetTasksOfTaskBars(taskBars);
-
-        saveObject.tasksLists = taskLists;
-
-        return saveObject;
+        return TaskBar.GetTasksOfTaskBars(taskBars);
     }
 
     public void SetTaskList(int index)
     {
-        this.selectedTasksList = taskLists[index];
+        DataBase.SetTaskList(index);
 
-        SetCurTasks(selectedTasksList.tasks);
+        SetCurTasks(DataBase.selectedTaskList.tasks);
 
         GameUI.instance.SetScreen(1);
     }
