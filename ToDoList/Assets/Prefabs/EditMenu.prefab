@@ -304,6 +304,7 @@ MonoBehaviour:
   closeEditMenuBut: {fileID: 978838585355128811}
   renameTaskListButton: {fileID: 8947165314108628488}
   deleteTaskListButton: {fileID: 8597813365921798471}
+  taskListNameText: {fileID: 7146157189653999470}
 --- !u!1 &5504966497219138986
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,9 +6,12 @@ public class TaskListsEditMenu : MonoBehaviour
 {
     [Header("Edit Menu")]
     [SerializeField] private GameObject editMenu;
+    [Space]
     [SerializeField] private Button closeEditMenuBut;
     [SerializeField] private Button renameTaskListButton;
     [SerializeField] private Button deleteTaskListButton;
+    [Space]
+    [SerializeField] private TextMeshProUGUI taskListNameText;
 
     private TaskListButton taskListButton;
     private TasksListsUI tasksListsUI;
@@ -60,6 +64,7 @@ public class TaskListsEditMenu : MonoBehaviour
             return;
 
         this.taskListButton = taskListButton;
+        this.taskListNameText.text = "Lista: " + taskListButton.TasksList.taskListName;
 
         editMenu.SetActive(true);
     }
