@@ -9,6 +9,8 @@ public class TaskListButton : MonoBehaviour
 {
     private Button button;
     [Header("Texts")]
+    [SerializeField] private TextMeshProUGUI identifierText;
+    [Space]
     [SerializeField] private TextMeshProUGUI taskListNameText;
     [SerializeField] private TextMeshProUGUI tasksAmountText;
     [SerializeField] private TextMeshProUGUI tasksAmountDoneText;
@@ -44,6 +46,8 @@ public class TaskListButton : MonoBehaviour
     {
         if (tasksList == null)
             return;
+
+        identifierText.text = tasksList.identifier.ToString();
 
         taskListNameText.text = tasksList.taskListName;
         tasksAmountText.text = tasksList.GetTasksAmount().ToString();

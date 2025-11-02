@@ -41,12 +41,19 @@ public class TasksListsUI : MonoBehaviour
         Populate(tasksLists);
     }
 
-    public void Seek(List<TasksList> tasksLists)
+    public void UpdateUI()
     {
-        Clear();
-
-        Populate(tasksLists);
+        RecalculateUI();
     }
+
+    private void RecalculateUI()
+    {
+        for (int i = 0; i < taskListButtons.Count; i++)
+        {
+            taskListButtons[i].UpdateUI();
+        }
+    }
+
 
     private void Populate(List<TasksList> tasksLists)
     {
@@ -56,11 +63,7 @@ public class TasksListsUI : MonoBehaviour
         }
     }
 
-    private void RecalculateUI()
-    {
-        Seek(GameManager.Instance.TaskLists);
-    }
-
+    
     private void Clear()
     {
         if (taskListButtons == null)
@@ -109,18 +112,13 @@ public class TasksListsUI : MonoBehaviour
 
     public void DeleteTaskList(TaskListButton taskListButton)
     {
-        Debug.Log($"Deleting task List : {taskListButton.TasksList.taskListName}");
+        Debug.Log($"Deleting task List : {taskListButton.TasksList.identifier}");
 
-        for (int i = 0; i < GameManager.Instance.TaskLists.Count; i++)
-        {
-            if(taskListButton.TasksList ==GameManager.Instance.TaskLists[i])
-            {
-                GameManager.Instance.TaskLists.Remove(taskListButton.TasksList);
-                break;
-            }    
-        }
+        DataBase.DeleteTaskList(taskListButton.TasksList);
 
-        RecalculateUI();
+        Initialize(DataBase.taskLists);
+
+        Save();
     }
 
     private void CreateTaskList()
@@ -131,6 +129,8 @@ public class TasksListsUI : MonoBehaviour
         TasksList tasksList = new TasksList();
         tasksList.taskListName = "New";
         tasksList.tasks = new List<Task>();
+
+        DataBase.CreateTaskList(tasksList);
 
         InstantiateTaskList(tasksList);
 

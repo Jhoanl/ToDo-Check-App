@@ -23,31 +23,46 @@ public class DataBase : MonoBehaviour
 
     public static void CreateTaskList(TasksList taskList)
     {
+        if (taskLists == null)
+            taskLists = new List<TasksList>();
+
         taskLists.Add(taskList);
+
+        for (int i = 0; i < taskLists.Count; i++)
+        {
+            int index = i;
+            taskLists[i].identifier = index;
+        }
+
+        Debug.Log("Task lists amount:" + taskLists.Count);
+        Debug.Log("Task list created:" + taskList.identifier);
+    }
+
+    public static void DeleteTaskList(TasksList taskList)
+    {
+        if (taskLists == null)
+            taskLists = new List<TasksList>();
+
+        taskLists.RemoveAt(taskList.identifier);
 
         for (int i = 0; i < taskLists.Count; i++)
         {
             taskLists[i].identifier = i;
         }
-
-        SaveAndLoad.Save();
-    }
-
-    public static void DeleteTaskList(TasksList taskList)
-    {
-        taskLists.RemoveAt(taskList.identifier);
-
-        SaveAndLoad.Save();
     }
 
     public static void SetTaskList(int index)
     {
+        Debug.Log("Task List set Index: " + index);
+
         selectedTaskList = taskLists[index];
     }
 
     public static void UpdateTasksOfSelected(List<Task> tasks)
     {
         selectedTaskList.tasks = tasks;
+
+        UpdateUI();
     }
 
     public static void Load(SaveObject savedObject)
@@ -58,7 +73,18 @@ public class DataBase : MonoBehaviour
             taskLists = new List<TasksList>();
 
         GameUI.instance.TasksUI.LastInput = savedObject.lastInput;
+        RecalculateUI();
         GameManager.Instance.Load(savedObject.tasks, savedObject.tasksLists);
+    }
+
+    private static void RecalculateUI()
+    {
+        GameUI.instance.TaskListsUI.Initialize(taskLists);
+    }
+
+    private static void UpdateUI()
+    {
+        GameUI.instance.TaskListsUI.UpdateUI();
     }
 
     public static SaveObject GetSaveObject()

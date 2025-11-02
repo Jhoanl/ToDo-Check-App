@@ -83,19 +83,20 @@ public class GameManager : MonoBehaviour
         GameUI.instance.InputTextPanel.Show("Editar Tarea", taskBarToEdit.Task.taskName, confirmAction);
     }
 
-
-
     private void TaskBar_OnTaskBarChanged(TaskBar task)
     {
         ShowTaskBars();
         OrderTaskBars();
 
-        DataBase.UpdateTasksOfSelected(GetTasksOfCurTaskBars());
-
         //Update task lists 
-        GameUI.instance.TaskListsUI.Initialize(this.taskLists);
+        UpdateTasks();
 
         SaveAndLoad.Save();
+    }
+
+    private void UpdateTasks()
+    {
+        DataBase.UpdateTasksOfSelected(GetTasksOfCurTaskBars());
     }
 
     private void OrderTaskBars()
@@ -245,6 +246,8 @@ public class GameManager : MonoBehaviour
 
         lastTaskIndexer++;
 
+        UpdateTasks();
+
         if (save)
             SaveAndLoad.Save();
 
@@ -278,8 +281,6 @@ public class GameManager : MonoBehaviour
     {
         SetCurTasks(curTasks);
         taskLists = tasksLists;
-
-        GameUI.instance.TaskListsUI.Initialize(tasksLists);
     }
 
     private void SetCurTasks(List<Task> curTasks)

@@ -1303,6 +1303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89b1e38838d94af47a94b8f18edfe5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  identifierText: {fileID: 4336659500237973903}
   taskListNameText: {fileID: 4336659500515969603}
   tasksAmountText: {fileID: 5650126622316019989}
   tasksAmountDoneText: {fileID: 5039817445910775052}

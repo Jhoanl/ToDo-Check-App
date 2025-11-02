@@ -50,7 +50,11 @@ public class TaskListsEditMenu : MonoBehaviour
 
         GameUI.instance.CurModalPanel.ShowConfirm("Delete Task List",
             $"Do you want to erase task list: {taskListButton.TasksList.taskListName} And all its tasks?",
-            null,() => tasksListsUI.DeleteTaskList(taskListButton), null);
+            null,() =>
+            {
+                tasksListsUI.DeleteTaskList(taskListButton);
+                CloseEditMenu();
+            }, null);
     }
 
     public void CloseEditMenu()
@@ -64,7 +68,7 @@ public class TaskListsEditMenu : MonoBehaviour
             return;
 
         this.taskListButton = taskListButton;
-        this.taskListNameText.text = "Lista: " + taskListButton.TasksList.taskListName;
+        this.taskListNameText.text = $"Id: {taskListButton.TasksList.identifier} {taskListButton.TasksList.taskListName}";
 
         editMenu.SetActive(true);
     }
