@@ -15,6 +15,7 @@ public class TasksUI : MonoBehaviour
     [SerializeField] private GameObject createTasksPanel;
     [SerializeField] private TMP_InputField inputFieldTaskInput;
     [SerializeField] private Button createToDoTaskButton;
+    [SerializeField] private Button createNewWithPaste;
     [Space]
     [Header("Completed")]
     [SerializeField] private Button showCompletedTasks;
@@ -51,11 +52,25 @@ public class TasksUI : MonoBehaviour
     private void Awake()
     {
         createToDoTaskButton.onClick.AddListener(OnTaskBarCreateButton);
+        createNewWithPaste.onClick.AddListener(CreateWithPasteButton);
+
         showCompletedTasks.onClick.AddListener(ShowCompletedTasks);
         deleteAllCompletedTasksButton.onClick.AddListener(DeleteAllTasksButton);
 
         inputFieldTaskInput.onEndEdit.AddListener(OnEndEditCreateTaskInputField);
         SetUITasks();
+
+        TaskBarHandlers.OnCopyOrPaste +=TaskBarHandlers_OnCopyOrPaste;
+    }
+
+    private void OnDestroy()
+    {
+        TaskBarHandlers.OnCopyOrPaste -=TaskBarHandlers_OnCopyOrPaste;
+    }
+
+    private void OnEnable()
+    {
+        TaskBarHandlers_OnCopyOrPaste();
     }
 
     private void Start()
@@ -111,6 +126,21 @@ public class TasksUI : MonoBehaviour
         task.taskPriority = 0;
         task.taskName = inputFieldTaskInput.text;
         inputFieldTaskInput.text = "";
+
+        GameManager.Instance.CreateTaskBar(task);
+        OnCreateTaskButton?.Invoke();
+    }
+
+    private void TaskBarHandlers_OnCopyOrPaste()
+    {
+        createNewWithPaste.gameObject.SetActive(TaskBarHandlers.hasTaskCopied);
+    }
+
+    private void CreateWithPasteButton()
+    {
+        TaskBarHandlers.SetTaskPasted();
+
+        Task task = TaskBarHandlers.GetTaskCopied();
 
         GameManager.Instance.CreateTaskBar(task);
         OnCreateTaskButton?.Invoke();

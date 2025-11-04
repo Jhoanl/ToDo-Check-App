@@ -6,18 +6,26 @@ using UnityEngine.UI;
 
 public class TaskBarUI : MonoBehaviour
 {
-    //Events
-    public event Action OnUpButtonClicked;
-    public event Action OnDownButtonClicked;
-    public event Action OnCompleteButtonClicked;
-    public event Action OnDeleteButtonClicked;
-    public event Action OnEditButtonClicked;
+    // Enum para las distintas acciones de los botones
+    public enum TaskActionType
+    {
+        Up,
+        Down,
+        Complete,
+        Delete,
+        Edit,
+        Copy,
+        Paste
+    }
+
+    // Evento genérico que emite el tipo de acción
+    public event Action<TaskActionType> OnTaskAction;
 
     [Header("Texts")]
     [SerializeField] private TextMeshProUGUI textName;
     [SerializeField] private TextMeshProUGUI textComplete;
     [SerializeField] private TextMeshProUGUI textIndexer;
-        
+
     [Header("BG")]
     [SerializeField] private Image bgImage;
     [SerializeField] private Color curBgColor;
@@ -36,47 +44,46 @@ public class TaskBarUI : MonoBehaviour
     [SerializeField] private Button deleteButton;
     [Space]
     [SerializeField] private Button editButton;
+    [Space]
+    [SerializeField] private Button copyButton;
+    [SerializeField] private Button pasteButton;
 
 
     private void Awake()
     {
-        upButton.onClick.AddListener(UpButtonClicked);
-        downButton.onClick.AddListener(DownButtonClicked);
+        // Suscribir cada botón al mismo método con su acción correspondiente
+        upButton.onClick.AddListener(() => RaiseAction(TaskActionType.Up));
+        downButton.onClick.AddListener(() => RaiseAction(TaskActionType.Down));
+        completeButton.onClick.AddListener(() => RaiseAction(TaskActionType.Complete));
+        deleteButton.onClick.AddListener(() => RaiseAction(TaskActionType.Delete));
+        editButton.onClick.AddListener(() => RaiseAction(TaskActionType.Edit));
+        copyButton.onClick.AddListener(() => RaiseAction(TaskActionType.Copy));
+        pasteButton.onClick.AddListener(() => RaiseAction(TaskActionType.Paste));
 
-        completeButton.onClick.AddListener(CompleteButtonClicked);
-        deleteButton.onClick.AddListener(DeleteButtonClicked);
-
-        editButton.onClick.AddListener(EditButtonClicked);
+        TaskBarHandlers.OnCopyOrPaste +=TaskBarHandlers_OnCopyOrPaste;
     }
 
-    #region Buttons
-
-    private void UpButtonClicked()
+    private void OnEnable()
     {
-        OnUpButtonClicked?.Invoke();
+        TaskBarHandlers_OnCopyOrPaste();
     }
 
-    private void DownButtonClicked()
+    private void OnDestroy()
     {
-        OnDownButtonClicked?.Invoke();
+        TaskBarHandlers.OnCopyOrPaste -=TaskBarHandlers_OnCopyOrPaste;
     }
 
-    private void DeleteButtonClicked()
+
+    // Método que lanza el evento
+    private void RaiseAction(TaskActionType actionType)
     {
-        OnDeleteButtonClicked?.Invoke();
+        OnTaskAction?.Invoke(actionType);
     }
 
-    private void CompleteButtonClicked()
+    private void TaskBarHandlers_OnCopyOrPaste()
     {
-        OnCompleteButtonClicked?.Invoke();
+        pasteButton.gameObject.SetActive(TaskBarHandlers.hasTaskCopied);
     }
-
-    private void EditButtonClicked()
-    {
-        OnEditButtonClicked?.Invoke();
-    }
-
-    #endregion
 
     public void SetVisuals(Task task, bool isCompleted, int toDoBarIndexer)
     {
@@ -127,5 +134,5 @@ public class TaskBarUI : MonoBehaviour
             yield return null;
         }
         bgImage.color = curBgColor;
-    } 
+    }
 }

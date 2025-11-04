@@ -25,19 +25,26 @@ public class TaskBar : MonoBehaviour
     private bool destroying = false;
 
     public Task Task { get => task; }
-    public bool IsCompleted { get => Task.isCompleted; set
+    public bool IsCompleted
+    {
+        get => Task.isCompleted; set
         {
             Task.isCompleted=value;
             SetVisuals();
         }
     }
 
-    public int TaskIdentifier { get => Task.taskIdentifier; set
+    public int TaskIdentifier
+    {
+        get => Task.taskIdentifier; set
         {
             Task.taskIdentifier=value;
-        } }
+        }
+    }
 
-    public int ToDoBarIndexer { get => toDoBarIndexer; set
+    public int ToDoBarIndexer
+    {
+        get => toDoBarIndexer; set
         {
             toDoBarIndexer=value;
             taskBarUI.TaskPriorityVisuals(toDoBarIndexer);
@@ -63,22 +70,81 @@ public class TaskBar : MonoBehaviour
     {
         taskBarUI= GetComponent<TaskBarUI>();
 
-        taskBarUI.OnCompleteButtonClicked += CompleteButtonClicked;
-        taskBarUI.OnDeleteButtonClicked += DeleteButtonClicked;
-        taskBarUI.OnEditButtonClicked += EditButtonClicked;
+        taskBarUI.OnTaskAction +=HandleTaskAction;
 
-        taskBarUI.OnDownButtonClicked += DownButtonClicked;
-        taskBarUI.OnUpButtonClicked += UpButtonClicked;
     }
 
-    private void EditButtonClicked()
+    // Un solo método para manejar todas las acciones de botones
+    private void HandleTaskAction(TaskBarUI.TaskActionType action)
+    {
+        switch (action)
+        {
+            case TaskBarUI.TaskActionType.Up:
+                MoveTaskUp();
+                break;
+
+            case TaskBarUI.TaskActionType.Down:
+                MoveTaskDown();
+                break;
+
+            case TaskBarUI.TaskActionType.Complete:
+                CompleteTask();
+                break;
+
+            case TaskBarUI.TaskActionType.Delete:
+                DeleteTask();
+                break;
+
+            case TaskBarUI.TaskActionType.Edit:
+                EditTask();
+                break;
+
+            case TaskBarUI.TaskActionType.Copy:
+                CopyTask();
+                break;
+
+            case TaskBarUI.TaskActionType.Paste:
+                PasteTask();
+                break;
+
+            default:
+                Debug.LogWarning("Acción no manejada: " + action);
+                break;
+        }
+    }
+
+    private void PasteTask()
+    {
+        if (!TaskBarHandlers.hasTaskCopied)
+        {
+            return;
+        }
+
+        GameUI.instance.CurModalPanel.ShowConfirm("Pegar tarea", "¿Deseas sobreescribir esta tarea?",
+            null, () =>
+            {
+
+                Init(TaskBarHandlers.GetTaskCopied());
+                TaskBarHandlers.SetTaskPasted();
+
+                OnTaskBarChanged?.Invoke(this);
+
+            }, null);
+    }
+
+    private void CopyTask()
+    {
+        TaskBarHandlers.CopyTaskBar(task);
+    }
+
+    private void EditTask()
     {
         OnEditButtonClicked?.Invoke(this);
     }
 
     #region Movement
 
-    private void UpButtonClicked()
+    private void MoveTaskUp()
     {
 
         Action moveAction = () =>
@@ -90,7 +156,7 @@ public class TaskBar : MonoBehaviour
         SetMovedVisuals();
     }
 
-    private void DownButtonClicked()
+    private void MoveTaskDown()
     {
         Action moveAction = () =>
         {
@@ -128,7 +194,7 @@ public class TaskBar : MonoBehaviour
 
     #region State
 
-    private void CompleteButtonClicked()
+    private void CompleteTask()
     {
         if (destroying)
             return;
@@ -147,7 +213,7 @@ public class TaskBar : MonoBehaviour
         FunctionTimer.Create(completeAction, delayToDoAction);
     }
 
-    private void DeleteButtonClicked()
+    private void DeleteTask()
     {
         if (destroying)
             return;
