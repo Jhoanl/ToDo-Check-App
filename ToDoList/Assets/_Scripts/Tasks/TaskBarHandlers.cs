@@ -28,4 +28,36 @@ public class TaskBarHandlers : MonoBehaviour
     {
         return taskCopied;
     }
+
+    public static int ChangeTaskColor(Task task)
+    {
+        int colorIndex = task.taskColorIndex;
+
+        colorIndex++;
+
+        if (colorIndex > 10)
+        {
+            colorIndex = 0;
+        }
+
+        return colorIndex;
+    }
+
+    public static Color GetTaskColor(TaskColor color)
+    {
+        return color switch
+        {
+            TaskColor.Green => Color.green,
+            TaskColor.Blue => new Color(0, .5f, 1),
+            TaskColor.Cyan => Color.cyan,
+            TaskColor.Yellow => Color.yellow,
+            TaskColor.Orange => new Color(1, .5f, 0),
+            TaskColor.Gray => Color.gray,
+            TaskColor.DarkGreen => new Color(0, .6f, .1f),
+            TaskColor.DarkYellow => new Color(.8f, .5f, 0),
+            TaskColor.Purple => new Color(.7f, 0, 1),
+            TaskColor.Red => Color.red,
+            _ => Color.white,
+        };
+    }
 }

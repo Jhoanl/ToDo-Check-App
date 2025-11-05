@@ -34,7 +34,7 @@ public class TasksListsUI : MonoBehaviour
         RecalculateUI();
     }
 
-    public void Initialize(List<TasksList> tasksLists)
+    public void Initialize(List<TaskList> tasksLists)
     {
         Clear();
 
@@ -55,7 +55,7 @@ public class TasksListsUI : MonoBehaviour
     }
 
 
-    private void Populate(List<TasksList> tasksLists)
+    private void Populate(List<TaskList> tasksLists)
     {
         for (int i = 0; i < tasksLists.Count; i++)
         {
@@ -126,7 +126,7 @@ public class TasksListsUI : MonoBehaviour
         Debug.Log("Create task list");
 
         //Create New Task List
-        TasksList tasksList = new TasksList();
+        TaskList tasksList = new TaskList();
         tasksList.taskListName = "New";
         tasksList.tasks = new List<Task>();
 
@@ -141,7 +141,7 @@ public class TasksListsUI : MonoBehaviour
         //Select
     }
 
-    private void InstantiateTaskList(TasksList tasksLists, bool autoSetName = true)
+    private void InstantiateTaskList(TaskList tasksLists, bool autoSetName = true)
     {
         GameObject go = Instantiate(taskListsGoPrefab, taskListsParent);
 
@@ -157,9 +157,9 @@ public class TasksListsUI : MonoBehaviour
         taskListButtons.Add(taskListBut);
     }
 
-    private List<TasksList> GetTaskLists()
+    private List<TaskList> GetTaskLists()
     {
-        List<TasksList> taskLists = new List<TasksList>();
+        List<TaskList> taskLists = new List<TaskList>();
 
         for (int i = 0; i < taskListButtons.Count; i++)
         {

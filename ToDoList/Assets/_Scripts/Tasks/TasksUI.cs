@@ -84,7 +84,7 @@ public class TasksUI : MonoBehaviour
 
         if (DataBase.selectedTaskList != null) {
 
-            TasksList tasksList = DataBase.selectedTaskList;
+            TaskList tasksList = DataBase.selectedTaskList;
             curTaskListText.text = tasksList.taskListName + " /Index : " + tasksList.identifier;
                 }
         else

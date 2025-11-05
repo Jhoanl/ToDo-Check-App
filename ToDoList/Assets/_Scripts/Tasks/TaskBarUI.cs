@@ -15,7 +15,8 @@ public class TaskBarUI : MonoBehaviour
         Delete,
         Edit,
         Copy,
-        Paste
+        Paste,
+        ColorChange
     }
 
     // Evento genérico que emite el tipo de acción
@@ -28,6 +29,7 @@ public class TaskBarUI : MonoBehaviour
 
     [Header("BG")]
     [SerializeField] private Image bgImage;
+    [SerializeField] private Image taskBarColorImage;
     [SerializeField] private Color curBgColor;
     [SerializeField] private Color completeColor;
     [SerializeField] private Color uncompleteColor;
@@ -38,6 +40,7 @@ public class TaskBarUI : MonoBehaviour
     [Space]
     [Header("Edit")]
     [SerializeField] private Button completeButton;
+    [SerializeField] private Image completeTick;
     [SerializeField] private Color completeButtonColor;
     [SerializeField] private Color uncompleteButtonColor;
     [Space]
@@ -48,7 +51,7 @@ public class TaskBarUI : MonoBehaviour
     [SerializeField] private Button copyButton;
     [SerializeField] private Button pasteButton;
 
-
+    private Task task;
     private void Awake()
     {
         // Suscribir cada botón al mismo método con su acción correspondiente
@@ -87,6 +90,8 @@ public class TaskBarUI : MonoBehaviour
 
     public void SetVisuals(Task task, bool isCompleted, int toDoBarIndexer)
     {
+        this.task = task;
+
         textName.SetText(task.taskName);
         TaskPriorityVisuals(toDoBarIndexer);
 
@@ -98,16 +103,30 @@ public class TaskBarUI : MonoBehaviour
         curBgColor = isCompleted ?
             completeColor : uncompleteColor;
 
+        TaskColor taskColor = (TaskColor)task.taskColorIndex;
+        taskBarColorImage.color = TaskBarHandlers.GetTaskColor(taskColor);
+
         bgImage.color = curBgColor;
 
         completeButton.GetComponent<Image>().color = isCompleted ?
             completeButtonColor : uncompleteButtonColor;
+        completeTick.color = isCompleted ? Color.white : Color.black;
 
         textComplete.SetText(completeString);
         upButton.gameObject.SetActive(!isCompleted);
         downButton.gameObject.SetActive(!isCompleted);
         deleteButton.gameObject.SetActive(isCompleted);
         editButton.gameObject.SetActive(!isCompleted);
+    }
+
+    public void ChangeTaskColor()
+    {
+        task.taskColorIndex = TaskBarHandlers.ChangeTaskColor(task);
+
+        TaskColor taskColor = (TaskColor)task.taskColorIndex;
+        taskBarColorImage.color = TaskBarHandlers.GetTaskColor(taskColor);
+
+        RaiseAction(TaskActionType.ColorChange);
     }
 
     public void TaskPriorityVisuals(int toDoBarIndexer)

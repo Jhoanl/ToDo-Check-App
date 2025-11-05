@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Cur Tasks")]
     [SerializeField] private List<TaskBar> taskBars;
-    [SerializeField] private List<TasksList> taskLists;
+    [SerializeField] private List<TaskList> taskLists;
 
     private bool showCompletedTasks;
 
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     public List<TaskBar> TaskBars { get => taskBars; }
 
-    public List<TasksList> TaskLists { get => taskLists; set => taskLists = value; }
+    public List<TaskList> TaskLists { get => taskLists; set => taskLists = value; }
 
     public bool ShowCompletedTasks
     {
@@ -277,7 +277,7 @@ public class GameManager : MonoBehaviour
         return higherIndexer;
     }
 
-    public void Load(List<Task> curTasks, List<TasksList> tasksLists)
+    public void Load(List<Task> curTasks, List<TaskList> tasksLists)
     {
         SetCurTasks(curTasks);
         taskLists = tasksLists;
@@ -310,5 +310,10 @@ public class GameManager : MonoBehaviour
         SetCurTasks(DataBase.selectedTaskList.tasks);
 
         GameUI.instance.SetScreen(1);
+
+        OrderTaskBars();
+
+        //Update task lists 
+        UpdateTasks();
     }
 }

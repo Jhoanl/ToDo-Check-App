@@ -106,7 +106,9 @@ public class TaskBar : MonoBehaviour
             case TaskBarUI.TaskActionType.Paste:
                 PasteTask();
                 break;
-
+            case TaskBarUI.TaskActionType.ColorChange:
+                OnTaskBarChanged?.Invoke(this);
+                break;
             default:
                 Debug.LogWarning("Acción no manejada: " + action);
                 break;

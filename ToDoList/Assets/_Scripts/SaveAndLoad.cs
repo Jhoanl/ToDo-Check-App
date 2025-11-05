@@ -47,9 +47,9 @@ namespace Saving
             //To Save old version data
             if (savedObject.tasks.Count > 0)
             {
-                savedObject.tasksLists = new List<TasksList>();
+                savedObject.tasksLists = new List<TaskList>();
 
-                TasksList tasksList = new TasksList();
+                TaskList tasksList = new TaskList();
                 tasksList.tasks = savedObject.tasks;
                 tasksList.taskListName = "Main";
                 tasksList.identifier = 0;
@@ -82,7 +82,7 @@ namespace Saving
     [System.Serializable]
     public class SaveObject
     {
-        public List<TasksList> tasksLists;
+        public List<TaskList> tasksLists;
 
         public List<Task> tasks;
         public string lastInput;

@@ -21,9 +21,9 @@ public class TaskListButton : MonoBehaviour
     [SerializeField] private Button deleteButton;
 
     private TasksListsUI tasksListsUI;
-    private TasksList tasksList;
+    private TaskList tasksList;
 
-    public TasksList TasksList { get => tasksList; set => tasksList = value; }
+    public TaskList TasksList { get => tasksList; set => tasksList = value; }
 
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class TaskListButton : MonoBehaviour
         deleteButton.onClick.AddListener(OnDeletteButton);
     }
 
-    public void Initialize(TasksListsUI tasksListsUI, TasksList tasksList)
+    public void Initialize(TasksListsUI tasksListsUI, TaskList tasksList)
     {
         this.tasksListsUI = tasksListsUI;
         this.tasksList = tasksList;

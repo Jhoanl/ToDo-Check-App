@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DataBase : MonoBehaviour
 {
-    public static List<TasksList> taskLists;
-    public static TasksList selectedTaskList;
+    public static List<TaskList> taskLists;
+    public static TaskList selectedTaskList;
 
     [Header("Debug")]
     [SerializeField] private SaveObject saveObject;
@@ -21,10 +21,10 @@ public class DataBase : MonoBehaviour
             saveObject = GetSaveObject();
     }
 
-    public static void CreateTaskList(TasksList taskList)
+    public static void CreateTaskList(TaskList taskList)
     {
         if (taskLists == null)
-            taskLists = new List<TasksList>();
+            taskLists = new List<TaskList>();
 
         taskLists.Add(taskList);
 
@@ -38,10 +38,10 @@ public class DataBase : MonoBehaviour
         Debug.Log("Task list created:" + taskList.identifier);
     }
 
-    public static void DeleteTaskList(TasksList taskList)
+    public static void DeleteTaskList(TaskList taskList)
     {
         if (taskLists == null)
-            taskLists = new List<TasksList>();
+            taskLists = new List<TaskList>();
 
         taskLists.RemoveAt(taskList.identifier);
 
@@ -70,7 +70,7 @@ public class DataBase : MonoBehaviour
         taskLists = savedObject.tasksLists;
 
         if(taskLists == null)
-            taskLists = new List<TasksList>();
+            taskLists = new List<TaskList>();
 
         GameUI.instance.TasksUI.LastInput = savedObject.lastInput;
         RecalculateUI();
@@ -102,41 +102,4 @@ public class DataBase : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public class TasksList
-{
-    public int identifier = 0;
-    public string taskListName;
-    public int spriteName;
 
-    public List<Task> tasks;
-
-    public List<Task> GetTasksDone()
-    {
-        List < Task > tasksDone = new List <Task> ();   
-        for (int i = 0; i < tasks.Count; i++)
-        {
-            if (tasks[i].isCompleted)
-                tasksDone.Add (tasks[i]);
-        }
-
-        return tasksDone;   
-    }
-
-    public List<Task> GetTasksPending()
-    {
-        List<Task> tasksPending = new List<Task>();
-        for (int i = 0; i < tasks.Count; i++)
-        {
-            if (!tasks[i].isCompleted)
-                tasksPending.Add(tasks[i]);
-        }
-
-        return tasksPending;
-    }
-
-    public int GetTasksAmount()
-    {
-        return tasks.Count;
-    }
-}
